@@ -54,27 +54,27 @@ const useWordle = (solution) => {
 			return prevTurn + 1;
 		});
 		setUsedKeys((prevUsedKeys) => {
-			let newKeys = { ...prevUsedKeys };
-			formattedGuess.forEach((letter) => {
-				const currentColor = newKeys[letter.key];
-				if (letter.color === 'green') {
-					newKeys[letter.key] = 'green';
+			formattedGuess.forEach((l) => {
+				const currentColor = prevUsedKeys[l.key];
+
+				if (l.color === 'green') {
+					prevUsedKeys[l.key] = 'green';
 					return;
 				}
-				if (letter.color === 'yellow' && currentColor !== 'green') {
-					newKeys[letter.key] = 'yellow';
+				if (l.color === 'yellow' && currentColor !== 'green') {
+					prevUsedKeys[l.key] = 'yellow';
 					return;
 				}
 				if (
-					currentColor === 'grey' &&
-					currentColor !== 'yellow' &&
-					currentColor !== 'green'
+					l.color === 'grey' &&
+					currentColor !== ('green' || 'yellow')
 				) {
-					newKeys[letter.key] = 'grey';
+					prevUsedKeys[l.key] = 'grey';
 					return;
 				}
 			});
-			return newKeys;
+
+			return prevUsedKeys;
 		});
 		setCurrentGuess('');
 	};
